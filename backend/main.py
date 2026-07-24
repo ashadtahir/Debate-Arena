@@ -1,5 +1,12 @@
+import logging
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
+from ai.api import DebateRespondRequest, DebateRespondResponse, ErrorResponse, debate_respond
+from ai.config import get_settings
+
+logging.basicConfig(level=get_settings().log_level)
 
 app = FastAPI(
     title="DebateArena API",
@@ -22,6 +29,11 @@ async def health_check():
         "status": "ok",
         "message": "DebateArena Backend Running",
     }
+
+
+@app.post("/api/debate/respond", response_model=DebateRespondResponse, responses={400: {"model": ErrorResponse}})
+async def respond(request: DebateRespondRequest):
+    return await debate_respond(request)
 
 
 if __name__ == "__main__":
