@@ -1,4 +1,16 @@
-"""Builds structured prompts for the debate engine from context + persona config."""
+"""Prompt builder — assembles structured prompts for the debate engine.
+
+Sections are built independently then concatenated:
+1. System prompt (persona-specific debate rules)
+2. Debate context (topic, side, round label, difficulty)
+3. Conversation history
+4. User argument (current round)
+5. Response format instructions (JSON schema)
+
+The builder is a pure function: same inputs always produce the same prompt.
+This makes prompt iteration and debugging straightforward — just inspect the
+output without needing to hit the LLM.
+"""
 
 from __future__ import annotations
 

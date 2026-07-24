@@ -1,10 +1,21 @@
 """Feature extraction layer — independent signals extracted from argument text.
 
-Embeddings from MiniLM are treated as semantic features (topic consistency,
-reference retrieval, coherence heuristics) — NOT as direct reasoning scores.
-Semantic similarity alone is a poor proxy for reasoning quality; these features
-are combined with structural, reasoning, evidence, and language signals via
-weighted scoring to produce the final ReasoningScore.
+Five feature groups are extracted independently:
+- StructuralFeatures: word count, sentence count, paragraph count, avg sentence length
+- ReasoningFeatures: claim/premise/conclusion indicators, connector usage, counterarguments
+- EvidenceFeatures: statistics, dates, examples, citations, named entities
+- LanguageFeatures: hedging, certainty, repetition, vague quantifiers, absolute language
+- SemanticFeatures: MiniLM embedding similarity to reference statements
+
+Each group has a `.score` property (0-1) for quick aggregation. The full feature
+set is available via `extract_all(text)` for analyzers that need raw signals.
+
+Why embeddings are features, not scores:
+Semantic similarity measures topical overlap with reference statements — a well-
+written wrong argument can have high similarity to a "logical" reference. These
+features are combined with structural, reasoning, evidence, and language signals
+via weighted scoring in SemanticReasoningAnalyzer to produce robust reasoning
+scores that no single signal could provide.
 """
 
 from __future__ import annotations

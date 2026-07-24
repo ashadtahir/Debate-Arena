@@ -1,4 +1,12 @@
-"""Insight generator — synthesizes observations into coaching feedback."""
+"""Insight generator — synthesizes observations into coaching feedback.
+
+The InsightGenerator ABC takes all observations and reasoning scores, then
+produces a list of strengths, improvements, and a one-line coaching insight.
+
+HeuristicInsightGenerator selects the strongest/weakest scores, prioritizes
+high-severity observations, and generates a contextual insight based on the
+argument's overall quality and the debate round.
+"""
 
 from __future__ import annotations
 

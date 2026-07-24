@@ -1,4 +1,13 @@
-"""Parses LLM responses into structured debate data. Handles malformed output gracefully."""
+"""Response parser — extracts structured debate data from LLM text output.
+
+Uses a 3-level fallback strategy:
+1. Parse LLM response as JSON directly
+2. Extract JSON from markdown code fences (```json ... ```)
+3. Fall back to raw text extraction with default values
+
+Never raises — malformed output always returns a safe default with
+parse_success=False so the debate can continue gracefully.
+"""
 
 from __future__ import annotations
 

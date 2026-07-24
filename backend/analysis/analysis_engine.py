@@ -1,4 +1,15 @@
-"""Analysis engine — orchestrates analyzers and insight generation."""
+"""Analysis engine — orchestrates the full analysis pipeline.
+
+Runs four analyzers in sequence via dependency injection:
+1. ReasoningAnalyzer → scores (logical_validity, evidence_use, coherence, counterargument_readiness)
+2. EvidenceAnalyzer → observations about evidence quality
+3. FallacyDetector → confidence-scored fallacy detections
+4. InsightGenerator → synthesizes everything into strengths, improvements, and coaching insight
+
+All analyzers are ABCs with heuristic defaults. Swap in Hugging Face models
+by passing custom implementations to the constructor:
+    engine = AnalysisEngine(reasoning=HFReasoningAnalyzer())
+"""
 
 from __future__ import annotations
 

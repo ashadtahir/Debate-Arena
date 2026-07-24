@@ -1,4 +1,12 @@
-"""Debate engine: orchestrates prompt construction, LLM calls, and response parsing."""
+"""Debate engine — orchestrates prompt construction, LLM calls, and response parsing.
+
+This is the core AI module. It takes a DebateRequest (persona, topic, side,
+difficulty, round, history, user argument), builds a prompt via prompt_builder,
+calls the LLM, and parses the JSON response into a DebateResponse.
+
+The engine is stateless and accepts an LLMClient via constructor (dependency
+injection), making it easy to swap providers or inject test doubles.
+"""
 
 from __future__ import annotations
 

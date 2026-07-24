@@ -1,4 +1,16 @@
-"""Abstract LLM client with provider-swappable implementations."""
+"""Abstract LLM client with provider-swappable implementations.
+
+The LLMClient ABC defines a single `complete()` method. Implementations handle
+provider-specific HTTP details while the debate engine stays provider-agnostic.
+
+Supported providers (all via OpenAI-compatible API):
+- OpenAI, OpenRouter, Groq, Together, DeepSeek
+- StubClient for development without an API key
+
+The factory function `get_llm_client()` reads LLM_PROVIDER from config and
+returns the appropriate client. Override by passing a custom client to
+DebateEngine(llm_client=...).
+"""
 
 from __future__ import annotations
 

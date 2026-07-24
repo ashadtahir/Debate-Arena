@@ -10,6 +10,8 @@ import type {
   RoundLabel,
   Score,
   Side,
+  DebateApiResponse,
+  DebateAnalysis,
 } from "@/types";
 import { personas } from "@/constants/personas";
 import DebateHeader from "@/components/debate/DebateHeader";
@@ -29,122 +31,89 @@ const roundLabels: RoundLabel[] = [
 
 const totalRounds = roundLabels.length;
 
-// Mock AI responses per persona, per round pattern
-const mockResponses: Record<string, string[]> = {
-  socrates: [
-    "What assumptions lead you to that conclusion? Have you considered that your premise might be built on an unexamined foundation?",
-    "You say this with conviction, but can you define your terms precisely? What exactly do you mean by 'replace' — and by what measure do you judge 'most'?",
-    "Interesting. But if we accept your definition, doesn't that contradict what you claimed in your opening? Let us examine this tension.",
-    "I notice you've shifted your argument. That is not necessarily weakness — but it does suggest your original position was not as solid as you believed. What have you learned?",
-    "Your closing is more measured than your opening. Perhaps this exchange has sharpened your thinking. But I ask you: do you still believe what you believed when you entered this arena?",
-  ],
-  prosecutor: [
-    "Your claim lacks evidentiary support. 'Many domains' is not a dataset — it is a handwave. Present your evidence or withdraw the assertion.",
-    "The data does not support your conclusion. Let me show you where your reasoning breaks down: you've confused correlation with causation.",
-    "You've introduced new evidence, but it contradicts your opening statement. Which position do you actually hold?",
-    "Your argument has a structural weakness: you're relying on authority rather than evidence. Who says this, and why should we believe them?",
-    "In closing, I note that you've failed to address three of my five challenges. The record will reflect this.",
-  ],
-  philosopher: [
-    "Let us step back. You are arguing about a symptom, but what about the underlying principle? What is the nature of the work you claim AI will replace?",
-    "Your argument assumes that 'replacement' means something simple. But does a tool that augments human capability 'replace' the human? Or does it transform the nature of the work itself?",
-    "You are thinking in binaries — replace or not replace. But reality is a spectrum. Where on that spectrum does your argument actually sit?",
-    "Consider this: every technological revolution has been preceded by the same fear. What makes this moment fundamentally different from the printing press, the steam engine, or the computer?",
-    "You've moved from prediction to philosophy in this debate. That is a sign of depth, not retreat. Your closing reflects a more nuanced understanding than your opening.",
-  ],
-  "devils-advocate": [
-    "Oh, so AI will replace white-collar jobs? That's adorable. Have you considered that white-collar workers will simply adapt, like every other group threatened by technology?",
-    "I'll take the opposite position just to show how weak yours is: AI will create MORE white-collar jobs than it destroys. Prove me wrong.",
-    "You're defending a position that even AI researchers don't fully agree on. Doesn't that give you pause?",
-    "I notice you're getting frustrated. Good. Debate should be uncomfortable. Your discomfort means you're actually thinking.",
-    "I've been arguing against you this entire time, and honestly? Your closing was the strongest thing you said. You actually convinced me of something — that you can think under pressure.",
-  ],
-};
-
-// Mock observations per round
-const mockObservations: Observation[][] = [
-  [
-    {
-      id: "obs-1-1",
-      round: 1,
-      type: "strength",
-      title: "Clear Opening Position",
-      description: "You stated your claim directly. A strong start establishes credibility.",
-    },
-  ],
-  [
-    {
-      id: "obs-2-1",
-      round: 2,
-      type: "fallacy",
-      title: "Hasty Generalization",
-      description: "Your claim generalizes without specifying which domains or providing evidence. Anchor your argument in specifics.",
-    },
-    {
-      id: "obs-2-2",
-      round: 2,
-      type: "suggestion",
-      title: "Consider Counter-Evidence",
-      description: "Addressing the strongest objection to your position — not the weakest — strengthens your credibility.",
-    },
-  ],
-  [
-    {
-      id: "obs-3-1",
-      round: 3,
-      type: "strength",
-      title: "Responsive Reasoning",
-      description: "You engaged directly with your opponent's challenge rather than deflecting. This builds intellectual honesty.",
-    },
-  ],
-  [
-    {
-      id: "obs-4-1",
-      round: 4,
-      type: "fallacy",
-      title: "Appeal to Authority",
-      description: "You cited an expert without explaining why their authority is relevant to this specific claim. Explain the connection.",
-    },
-    {
-      id: "obs-4-2",
-      round: 4,
-      type: "suggestion",
-      title: "Tighten Your Argument",
-      description: "Your last two points were strong but scattered. Pick one thread and develop it fully.",
-    },
-  ],
-  [
-    {
-      id: "obs-5-1",
-      round: 5,
-      type: "strength",
-      title: "Strong Closing",
-      description: "Your closing synthesized your earlier points rather than repeating them. This shows growth through the debate.",
-    },
-  ],
-];
-
-// Score calculation (mock)
-function calculateScore(userArgs: string[], observations: Observation[]): Score {
-  const wordCount = userArgs.reduce((sum, a) => sum + a.split(/\s+/).length, 0);
-  const fallacyCount = observations.filter((o) => o.type === "fallacy").length;
-  const strengthCount = observations.filter((o) => o.type === "strength").length;
-
-  const base = Math.min(60, 30 + wordCount * 0.3);
-  const bonus = strengthCount * 8;
-  const penalty = fallacyCount * 12;
-  const overall = Math.round(Math.max(20, Math.min(98, base + bonus - penalty)));
-
-  return {
-    overall,
-    logic: Math.round(Math.max(20, Math.min(98, overall + (Math.random() * 10 - 5)))),
-    evidence: Math.round(Math.max(20, Math.min(98, overall + (Math.random() * 12 - 6)))),
-    persuasion: Math.round(Math.max(20, Math.min(98, overall + (Math.random() * 10 - 5)))),
-  };
-}
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 
 function generateId() {
   return Math.random().toString(36).slice(2, 10);
+}
+
+async function fetchDebateResponse(params: {
+  persona_id: string;
+  topic: string;
+  side: string;
+  difficulty: string;
+  round_number: number;
+  history: { speaker: string; content: string }[];
+  user_argument: string;
+}): Promise<DebateApiResponse> {
+  const res = await fetch(`${API_URL}/api/debate/respond`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(params),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ error: "Request failed" }));
+    throw new Error(err.detail ?? err.error ?? `HTTP ${res.status}`);
+  }
+  return res.json();
+}
+
+function mapAnalysisToObservations(
+  analysis: DebateAnalysis | null,
+  round: number,
+): Observation[] {
+  if (!analysis) return [];
+  const obs: Observation[] = [];
+  for (const o of analysis.observations) {
+    obs.push({
+      id: generateId(),
+      round,
+      type: o.type,
+      title: o.title,
+      description: o.description,
+    });
+  }
+  for (const f of analysis.fallacies) {
+    obs.push({
+      id: generateId(),
+      round,
+      type: "fallacy",
+      title: f.name,
+      description: `${f.explanation} (confidence: ${Math.round(f.confidence * 100)}%)`,
+    });
+  }
+  for (const s of analysis.strengths) {
+    obs.push({
+      id: generateId(),
+      round,
+      type: "strength",
+      title: "Strength",
+      description: s,
+    });
+  }
+  for (const imp of analysis.improvements) {
+    obs.push({
+      id: generateId(),
+      round,
+      type: "suggestion",
+      title: "Coaching Tip",
+      description: imp,
+    });
+  }
+  return obs;
+}
+
+function mapAnalysisToScore(
+  analysis: DebateAnalysis | null,
+  currentScore: Score,
+): Score {
+  if (!analysis) return currentScore;
+  return {
+    overall: analysis.scores.overall,
+    logic: analysis.scores.logic,
+    evidence: analysis.scores.evidence,
+    persuasion: analysis.scores.persuasion,
+  };
 }
 
 export default function DebatePage() {
@@ -193,7 +162,7 @@ export default function DebatePage() {
     setStatus("active");
   };
 
-  const handleUserSubmit = (content: string) => {
+  const handleUserSubmit = async (content: string) => {
     if (!currentRoundData) return;
 
     const userArg: Argument = {
@@ -203,22 +172,35 @@ export default function DebatePage() {
       content,
     };
 
-    // Add user argument
     const updatedRounds = [...rounds];
     updatedRounds[currentRound] = {
       ...updatedRounds[currentRound],
       arguments: [...updatedRounds[currentRound].arguments, userArg],
     };
     setRounds(updatedRounds);
-
-    // AI thinking delay
     setIsAiThinking(true);
-    setTimeout(() => {
+
+    try {
+      const allArgs = updatedRounds.flatMap((r) => r.arguments);
+      const history = allArgs
+        .filter((a) => a.id !== userArg.id)
+        .map((a) => ({ speaker: a.speaker === "ai" ? "ai" : "user", content: a.content }));
+
+      const apiResponse = await fetchDebateResponse({
+        persona_id: persona.id,
+        topic: topic.title,
+        side,
+        difficulty: setup?.difficulty ?? "scholar",
+        round_number: currentRound + 1,
+        history,
+        user_argument: content,
+      });
+
       const aiArg: Argument = {
         id: generateId(),
         round: currentRound + 1,
         speaker: "ai",
-        content: mockResponses[persona.id]?.[currentRound] ?? "That is an interesting position. Let me challenge your reasoning.",
+        content: apiResponse.response,
       };
 
       const withAi = [...updatedRounds];
@@ -227,30 +209,38 @@ export default function DebatePage() {
         arguments: [...withAi[currentRound].arguments, aiArg],
       };
 
-      // Add observations for this round
-      const roundObs = mockObservations[currentRound] ?? [];
+      const roundObs = mapAnalysisToObservations(apiResponse.analysis, currentRound + 1);
       withAi[currentRound] = {
         ...withAi[currentRound],
         observations: roundObs,
       };
 
       setRounds(withAi);
+      setScore(mapAnalysisToScore(apiResponse.analysis, score));
+    } catch {
+      const aiArg: Argument = {
+        id: generateId(),
+        round: currentRound + 1,
+        speaker: "ai",
+        content: "I apologize — I was unable to generate a response. Please try again.",
+      };
+      const withAi = [...updatedRounds];
+      withAi[currentRound] = {
+        ...withAi[currentRound],
+        arguments: [...withAi[currentRound].arguments, aiArg],
+      };
+      setRounds(withAi);
+    } finally {
       setIsAiThinking(false);
+    }
 
-      // Update score
-      const newUserArgs = withAi.flatMap((r) => r.arguments).filter((a) => a.speaker === "user").map((a) => a.content);
-      const newObs = withAi.flatMap((r) => r.observations);
-      setScore(calculateScore(newUserArgs, newObs));
-
-      // Advance to next round after a brief pause
-      setTimeout(() => {
-        if (currentRound < totalRounds - 1) {
-          setCurrentRound(currentRound + 1);
-        } else {
-          setStatus("completed");
-        }
-      }, 800);
-    }, 1200 + Math.random() * 800);
+    setTimeout(() => {
+      if (currentRound < totalRounds - 1) {
+        setCurrentRound(currentRound + 1);
+      } else {
+        setStatus("completed");
+      }
+    }, 800);
   };
 
   // Scroll to bottom when new content appears

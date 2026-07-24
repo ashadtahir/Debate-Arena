@@ -1,4 +1,11 @@
-"""Centralized configuration via pydantic-settings. All env vars in one place."""
+"""Centralized configuration via pydantic-settings. All env vars in one place.
+
+All settings are prefixed with LLM_ (e.g., LLM_PROVIDER, LLM_API_KEY).
+The Settings class is a singleton via lru_cache — call get_settings() anywhere.
+
+Supported providers: stub, openai, openrouter, groq, together, deepseek.
+All use the OpenAI-compatible chat completions API format.
+"""
 
 from __future__ import annotations
 

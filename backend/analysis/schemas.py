@@ -1,4 +1,11 @@
-"""Strongly typed models for the analysis engine."""
+"""Analysis engine data models — strongly typed schemas for the analysis pipeline.
+
+All models are Pydantic v2 for validation and serialization consistency.
+The Observation model represents a single finding from any analyzer (evidence
+quality, reasoning structure, fallacy detection, etc.). ReasoningScore provides
+four numeric dimensions (0-1) with a computed overall average. AnalysisResult
+aggregates everything into the final output shape sent to the frontend.
+"""
 
 from __future__ import annotations
 

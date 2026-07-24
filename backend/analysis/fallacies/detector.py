@@ -1,4 +1,17 @@
-"""Fallacy detector — abstract interface and default heuristic implementation."""
+"""Fallacy detector — abstract interface and default heuristic implementation.
+
+The FallacyDetector ABC exposes a single `detect()` method that returns a list
+of Fallacy objects, each with a confidence score (0-1), explanation, and the
+text evidence that triggered detection.
+
+HeuristicFallacyDetector runs six independent fallacy detectors (hasty
+generalization, false dilemma, straw man, appeal to authority, slippery slope,
+circular reasoning), each combining structural, language, reasoning, and
+semantic features into confidence scores. Results are sorted by confidence.
+
+To swap in a Hugging Face classifier, implement FallacyDetector and pass it
+to AnalysisEngine(fallacies=YourClassifier()).
+"""
 
 from __future__ import annotations
 

@@ -76,3 +76,45 @@ export type DebateState = {
   score: Score;
   status: DebateStatus;
 };
+
+export type DebateAnalysisScores = {
+  overall: number;
+  logic: number;
+  evidence: number;
+  coherence: number;
+  persuasion: number;
+};
+
+export type DebateAnalysisObservation = {
+  type: "fallacy" | "strength" | "suggestion";
+  title: string;
+  description: string;
+};
+
+export type DebateFallacy = {
+  type: string;
+  name: string;
+  confidence: number;
+  explanation: string;
+  evidence: string;
+};
+
+export type DebateAnalysis = {
+  scores: DebateAnalysisScores;
+  observations: DebateAnalysisObservation[];
+  fallacies: DebateFallacy[];
+  strengths: string[];
+  improvements: string[];
+  insight: string;
+};
+
+export type DebateApiResponse = {
+  response: string;
+  thinking_style: string;
+  next_focus: string;
+  tone: string;
+  persona_id: string;
+  round_number: number;
+  parse_success: boolean;
+  analysis: DebateAnalysis | null;
+};

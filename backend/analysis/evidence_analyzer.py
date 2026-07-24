@@ -1,4 +1,13 @@
-"""Evidence quality analyzer — evaluates the specificity and strength of claims."""
+"""Evidence quality analyzer — evaluates the specificity and strength of claims.
+
+The EvidenceAnalyzer ABC exposes an `analyze()` method that inspects evidence
+markers in text (statistics, dates, examples, citations, named entities) and
+returns observations about evidence quality.
+
+HeuristicEvidenceAnalyzer uses regex-based detection: it counts evidence markers
+per category and produces targeted observations for each. The analyzer is
+lenient for opening rounds and stricter for later rounds.
+"""
 
 from __future__ import annotations
 
