@@ -26,6 +26,7 @@ class Settings(BaseSettings):
 
     # App
     log_level: str = "INFO"
+    adaptive_personas: bool = True
 
 
 @lru_cache

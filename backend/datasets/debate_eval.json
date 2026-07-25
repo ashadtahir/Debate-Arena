@@ -1,0 +1,682 @@
+[
+  {
+    "topic": "AI will replace most white-collar jobs within 20 years",
+    "argument": "According to a 2024 McKinsey report, up to 30% of work hours could be automated by 2030. The pattern is clear: each wave of automation eliminates routine cognitive tasks. Data entry, basic analysis, and routine legal work are already being automated. The question is not if, but when.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "strong",
+      "notes": "Uses specific report, acknowledges timeline, provides concrete examples"
+    }
+  },
+  {
+    "topic": "AI will replace most white-collar jobs within 20 years",
+    "argument": "AI is going to take all the jobs. Everyone knows it. The technology is advancing so fast that humans won't be able to keep up. It's inevitable.",
+    "expected": {
+      "reasoning_level": "weak",
+      "likely_fallacies": ["hasty_generalization", "appeal_to_authority"],
+      "evidence_strength": "none",
+      "notes": "Vague claims, no evidence, appeal to common knowledge"
+    }
+  },
+  {
+    "topic": "AI will replace most white-collar jobs within 20 years",
+    "argument": "I believe AI will replace white-collar jobs because it can process information faster than humans. However, this ignores the creative and emotional intelligence aspects of most white-collar work. A more nuanced view is that AI will augment rather than replace most roles.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "moderate",
+      "notes": "Acknowledges complexity, presents counterargument, balanced conclusion"
+    }
+  },
+  {
+    "topic": "Social media does more harm than good",
+    "argument": "Social media is destroying our children's mental health. Studies show a 60% increase in teen depression since smartphones became widespread. We need to ban social media for minors immediately.",
+    "expected": {
+      "reasoning_level": "moderate",
+      "likely_fallacies": ["slippery_slope"],
+      "evidence_strength": "moderate",
+      "notes": "Cites correlation as causation, jumps to extreme solution"
+    }
+  },
+  {
+    "topic": "Social media does more harm than good",
+    "argument": "Social media connects people across the globe, enables social movements like Black Lives Matter and #MeToo, and provides educational resources to millions. The harm comes not from the platforms themselves but from how they are used. Blaming social media is like blaming the telephone for gossip.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "strong",
+      "notes": "Provides specific examples, distinguishes platform from usage, uses analogy effectively"
+    }
+  },
+  {
+    "topic": "Social media does more harm than good",
+    "argument": "Everyone is addicted to their phones. Social media is poison. It's all fake and it's ruining society. End of story.",
+    "expected": {
+      "reasoning_level": "weak",
+      "likely_fallacies": ["hasty_generalization"],
+      "evidence_strength": "none",
+      "notes": "Emotional, no evidence, absolutist language"
+    }
+  },
+  {
+    "topic": "Universal basic income is necessary",
+    "argument": "The Finland UBI experiment showed that recipients had better well-being and slightly better employment outcomes. Alaska's Permanent Fund has distributed dividends since 1982 without economic collapse. These aren't theoretical — they're evidence.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "strong",
+      "notes": "Cites specific real-world experiments, concrete data points"
+    }
+  },
+  {
+    "topic": "Universal basic income is necessary",
+    "argument": "We should give everyone money because poor people need it. It's the right thing to do. If we can afford to bail out banks, we can afford to help people.",
+    "expected": {
+      "reasoning_level": "weak",
+      "likely_fallacies": ["false_dilemma"],
+      "evidence_strength": "none",
+      "notes": "Emotional appeal, false dichotomy, no policy analysis"
+    }
+  },
+  {
+    "topic": "Climate change requires immediate drastic action",
+    "argument": "The IPCC reports that we have until 2030 to limit warming to 1.5 degrees. Every fraction of a degree matters. The cost of inaction far exceeds the cost of transition. We need to phase out fossil fuels within a decade.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "strong",
+      "notes": "Cites authoritative source, clear urgency, cost-benefit framing"
+    }
+  },
+  {
+    "topic": "Climate change requires immediate drastic action",
+    "argument": "The climate has always changed. Ice ages come and go. Humans are arrogant to think we can control the weather. Besides, it was cold last winter.",
+    "expected": {
+      "reasoning_level": "weak",
+      "likely_fallacies": ["hasty_generalization", "straw_man"],
+      "evidence_strength": "none",
+      "notes": "Confuses climate with weather, straw man about controlling weather"
+    }
+  },
+  {
+    "topic": "Standardized testing should be abolished",
+    "argument": "Standardized tests measure test-taking ability, not learning. A Stanford study found that GPA is a better predictor of college success than SAT scores. These tests also disadvantage low-income students who cannot afford prep courses.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "strong",
+      "notes": "Cites research, provides specific mechanism, addresses equity"
+    }
+  },
+  {
+    "topic": "Standardized testing should be abolished",
+    "argument": "Tests are stressful and make kids feel bad. We should get rid of them because they're not fair.",
+    "expected": {
+      "reasoning_level": "weak",
+      "likely_fallacies": [],
+      "evidence_strength": "none",
+      "notes": "Emotional appeal, no substantive argument"
+    }
+  },
+  {
+    "topic": "Nuclear energy is essential for fighting climate change",
+    "argument": "Nuclear provides 10% of the world's electricity with near-zero emissions. France generates 70% of its power from nuclear and has the cleanest grid in Europe. Modern SMGs are safer and cheaper than traditional plants.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "strong",
+      "notes": "Specific statistics, real-world example, addresses counterargument about safety"
+    }
+  },
+  {
+    "topic": "Nuclear energy is essential for fighting climate change",
+    "argument": "Nuclear is dangerous. Chernobyl proved that. Fukushima. Waste lasts thousands of years. We should just use solar and wind.",
+    "expected": {
+      "reasoning_level": "weak",
+      "likely_fallacies": ["hasty_generalization"],
+      "evidence_strength": "weak",
+      "notes": "Cherry-picks disasters, ignores comparative risk, dismisses alternatives without analysis"
+    }
+  },
+  {
+    "topic": "Remote work is better than office work",
+    "argument": "A Stanford study of 16,000 workers found that remote workers were 13% more productive, took fewer sick days, and reported higher satisfaction. Companies save an average of $11,000 per remote employee per year.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "strong",
+      "notes": "Multiple specific data points, cites research, addresses employer benefit"
+    }
+  },
+  {
+    "topic": "Remote work is better than office work",
+    "argument": "Working from home is lazy. People need to get off their couches and go to work like they always have. This new generation just doesn't want to work.",
+    "expected": {
+      "reasoning_level": "weak",
+      "likely_fallacies": ["hasty_generalization"],
+      "evidence_strength": "none",
+      "notes": "Nostalgia bias, generational stereotyping, no evidence"
+    }
+  },
+  {
+    "topic": "The minimum wage should be raised to $20/hour",
+    "argument": "The federal minimum wage has not kept pace with inflation. At $7.25, it's worth less than it was in 1968. A UC Berkeley study found that raising the minimum wage to $15 did not cause significant job losses in bordering counties. Workers spending more money stimulates local economies.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "strong",
+      "notes": "Historical context, research citation, economic reasoning"
+    }
+  },
+  {
+    "topic": "The minimum wage should be raised to $20/hour",
+    "argument": "If you raise the minimum wage, businesses will just fire everyone. Robots will do all the work. Small businesses will close. It's basic economics.",
+    "expected": {
+      "reasoning_level": "weak",
+      "likely_fallacies": ["slippery_slope"],
+      "evidence_strength": "none",
+      "notes": "Slippery slope, oversimplified economics, no data"
+    }
+  },
+  {
+    "topic": "Education should be completely free through college",
+    "argument": "Germany and Norway offer free university education and their economies haven't collapsed. The GI Bill in the US generated $7 in economic growth for every $1 invested. An educated workforce attracts businesses and increases tax revenue.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "strong",
+      "notes": "International comparison, historical evidence, economic argument"
+    }
+  },
+  {
+    "topic": "Education should be completely free through college",
+    "argument": "Nothing is free. Someone has to pay for it. Taxpayers shouldn't have to fund other people's kids to party in college for four years.",
+    "expected": {
+      "reasoning_level": "weak",
+      "likely_fallacies": ["straw_man"],
+      "evidence_strength": "none",
+      "notes": "Straw man about partying, ignores public goods argument"
+    }
+  },
+  {
+    "topic": "Censorship is never justified",
+    "argument": "The marketplace of ideas, as Mill argued, allows truth to emerge from the collision of opposing views. Even harmful speech serves a purpose: it reveals what we must fight against. The danger of censorship is not what it silences, but who decides what gets silenced.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "moderate",
+      "notes": "Philosophical argument, references authority, identifies core risk"
+    }
+  },
+  {
+    "topic": "Censorship is never justified",
+    "argument": "People should be able to say whatever they want. Free speech is in the Constitution. You can't limit it.",
+    "expected": {
+      "reasoning_level": "moderate",
+      "likely_fallacies": ["appeal_to_authority"],
+      "evidence_strength": "weak",
+      "notes": "Appeals to authority without analysis, ignores limits already exist"
+    }
+  },
+  {
+    "topic": "Democracy is the best form of government",
+    "argument": "Democracies consistently outperform autocracies on human development indices. They self-correct through elections, allow peaceful transitions of power, and protect individual rights. The imperfections of democracy are features, not bugs.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "strong",
+      "notes": "Evidence-based, nuanced, reframes imperfections positively"
+    }
+  },
+  {
+    "topic": "Democracy is the best form of government",
+    "argument": "Democracy is the worst form of government except all the others. People are stupid and can't be trusted to make good decisions. Look at Brexit.",
+    "expected": {
+      "reasoning_level": "weak",
+      "likely_fallacies": ["hasty_generalization"],
+      "evidence_strength": "weak",
+      "notes": "Uses Churchill quote out of context, cherry-picks example"
+    }
+  },
+  {
+    "topic": "Space exploration is worth the investment",
+    "argument": "NASA's annual budget is $25 billion — less than 0.5% of federal spending. The return on investment includes GPS, memory foam, water purification, and thousands of patents. The technology spinoffs alone justify the cost.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "strong",
+      "notes": "Specific budget figure, ROI framing, concrete examples"
+    }
+  },
+  {
+    "topic": "Space exploration is worth the investment",
+    "argument": "We can't even fix problems on Earth. Why spend billions on space when people are starving? We should use that money to help people here first.",
+    "expected": {
+      "reasoning_level": "weak",
+      "likely_fallacies": ["false_dilemma"],
+      "evidence_strength": "none",
+      "notes": "False dichotomy, ignores that space investment creates Earth benefits"
+    }
+  },
+  {
+    "topic": "Vegetarianism is ethically superior",
+    "argument": "The average meat-eating American consumes 7,000 animals in their lifetime. Factory farming accounts for 14.5% of greenhouse gas emissions. Plant-based diets reduce food-related carbon footprints by up to 73% according to Oxford research.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "strong",
+      "notes": "Specific data, environmental framing, research citation"
+    }
+  },
+  {
+    "topic": "Vegetarianism is ethically superior",
+    "argument": "Eating meat is natural. Humans have done it for thousands of years. It's the circle of life. You can't change nature.",
+    "expected": {
+      "reasoning_level": "weak",
+      "likely_fallacies": ["appeal_to_authority"],
+      "evidence_strength": "none",
+      "notes": "Appeal to nature, ignores ethical question entirely"
+    }
+  },
+  {
+    "topic": "The electoral college should be abolished",
+    "argument": "Five elections have been decided by the electoral college despite the loser winning the popular vote. This undermines democratic legitimacy. Every vote should carry equal weight regardless of geography.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "strong",
+      "notes": "Specific historical examples, clear principle"
+    }
+  },
+  {
+    "topic": "The electoral college should be abolished",
+    "argument": "If we get rid of the electoral college, then only New York and California will decide elections. Rural America will be completely ignored.",
+    "expected": {
+      "reasoning_level": "moderate",
+      "likely_fallacies": ["slippery_slope"],
+      "evidence_strength": "weak",
+      "notes": "Slippery slope, oversimplifies voting patterns"
+    }
+  },
+  {
+    "topic": "Regulation stifles innovation",
+    "argument": "The deregulation of the airline industry in 1978 led to a 30% decrease in airfares and a massive increase in routes. However, excessive regulation in healthcare has made drugs unaffordable for millions. The key is finding the right balance.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "strong",
+      "notes": "Specific historical example, balanced view, acknowledges nuance"
+    }
+  },
+  {
+    "topic": "Regulation stifles innovation",
+    "argument": "Government regulation is always bad. It always costs more than it helps. Just look at how much paperwork businesses have to deal with. The free market knows best.",
+    "expected": {
+      "reasoning_level": "weak",
+      "likely_fallacies": ["hasty_generalization"],
+      "evidence_strength": "weak",
+      "notes": "Absolute claims, no evidence, ideological assumption"
+    }
+  },
+  {
+    "topic": "Genetic engineering of humans should be permitted",
+    "argument": "CRISPR technology could eliminate diseases like sickle cell anemia and cystic fibrosis. The distinction between therapy and enhancement is philosophically arbitrary. If we can prevent suffering, we have a moral obligation to do so.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "moderate",
+      "notes": "Specific examples, ethical reasoning, moral argument"
+    }
+  },
+  {
+    "topic": "Genetic engineering of humans should be permitted",
+    "argument": "Playing God with genetics is dangerous. We don't know the long-term consequences. It could lead to designer babies and a genetic underclass.",
+    "expected": {
+      "reasoning_level": "moderate",
+      "likely_fallacies": ["slippery_slope"],
+      "evidence_strength": "weak",
+      "notes": "Legitimate concern but presented as slippery slope"
+    }
+  },
+  {
+    "topic": "The death penalty should be abolished",
+    "argument": "Since 1973, over 190 people have been exonerated from death row. The Innocence Project has shown that 4% of death row inmates are likely innocent. No system operated by humans can be trusted with the irreversible power to kill.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "strong",
+      "notes": "Specific data, concrete examples, principled argument"
+    }
+  },
+  {
+    "topic": "The death penalty should be abolished",
+    "argument": "Murderers deserve to die. An eye for an eye. That's justice. If you kill someone, you should be killed too. It's simple.",
+    "expected": {
+      "reasoning_level": "weak",
+      "likely_fallacies": [],
+      "evidence_strength": "none",
+      "notes": "Emotional retribution argument, no policy analysis"
+    }
+  },
+  {
+    "topic": "Immigration benefits the economy",
+    "argument": "Immigrants start businesses at twice the rate of native-born Americans. The National Academy of Sciences found that immigrants contribute $330 billion annually to GDP. First-generation immigrants are net contributors to public finances over their lifetimes.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "strong",
+      "notes": "Multiple data points, authoritative source, lifetime perspective"
+    }
+  },
+  {
+    "topic": "Immigration benefits the economy",
+    "argument": "Immigrants take our jobs and lower wages. They use our hospitals and schools without paying taxes. We can't afford to let everyone in.",
+    "expected": {
+      "reasoning_level": "weak",
+      "likely_fallacies": ["hasty_generalization"],
+      "evidence_strength": "none",
+      "notes": "Sweeping claims, no data, contradicts research"
+    }
+  },
+  {
+    "topic": "Plastic should be banned entirely",
+    "argument": "8 million metric tons of plastic enter the ocean every year. By 2050, there will be more plastic than fish by weight. Alternatives like biodegradable packaging and reusable containers already exist. The cost of cleanup far exceeds the cost of transition.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "strong",
+      "notes": "Specific data, future projection with source, solutions proposed"
+    }
+  },
+  {
+    "topic": "Plastic should be banned entirely",
+    "argument": "Plastic is everywhere. We can't live without it. Ban it and the whole economy collapses. It's impossible.",
+    "expected": {
+      "reasoning_level": "weak",
+      "likely_fallacies": ["false_dilemma", "slippery_slope"],
+      "evidence_strength": "none",
+      "notes": "False dilemma, slippery slope, no analysis"
+    }
+  },
+  {
+    "topic": "College education is overrated",
+    "argument": "Student loan debt in the US exceeds $1.7 trillion. Many graduates work in jobs that don't require degrees. The return on investment varies wildly by field. Vocational training offers a more direct path to middle-class income for many students.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "strong",
+      "notes": "Specific data, practical analysis, acknowledges alternatives"
+    }
+  },
+  {
+    "topic": "College education is overrated",
+    "argument": "You don't need college. Bill Gates dropped out. College is a waste of time and money. Just learn to code.",
+    "expected": {
+      "reasoning_level": "weak",
+      "likely_fallacies": ["hasty_generalization"],
+      "evidence_strength": "weak",
+      "notes": "Survivorship bias, cherry-picks exception"
+    }
+  },
+  {
+    "topic": "Renewable energy can fully replace fossil fuels",
+    "argument": "Solar and wind are now the cheapest sources of new electricity in most of the world. Battery storage costs have dropped 89% since 2010. Countries like Costa Rica and Iceland already run on nearly 100% renewable energy.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "strong",
+      "notes": "Cost data, technology trends, real-world examples"
+    }
+  },
+  {
+    "topic": "Renewable energy can fully replace fossil fuels",
+    "argument": "The sun doesn't always shine and the wind doesn't always blow. You can't power a city with solar panels. Fossil fuels are reliable and that's why we need them.",
+    "expected": {
+      "reasoning_level": "moderate",
+      "likely_fallacies": [],
+      "evidence_strength": "weak",
+      "notes": "Legitimate technical challenge but ignores storage advances"
+    }
+  },
+  {
+    "topic": "Animal testing should be banned",
+    "argument": "95% of drugs that pass animal trials fail in human clinical trials. Organ-on-a-chip technology now provides more accurate human tissue models. Alternatives exist that are both more ethical and more scientifically reliable.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "strong",
+      "notes": "Specific failure rate, names alternatives, dual argument"
+    }
+  },
+  {
+    "topic": "Animal testing should be banned",
+    "argument": "Animals feel pain just like we do. It's cruel and inhumane. We have no right to experiment on them.",
+    "expected": {
+      "reasoning_level": "moderate",
+      "likely_fallacies": [],
+      "evidence_strength": "weak",
+      "notes": "Ethical argument but doesn't address scientific necessity"
+    }
+  },
+  {
+    "topic": "The two-party system is broken",
+    "argument": "Gerrymandering has created 400+ safe House districts where the general election is irrelevant. Only 10% of House races are competitive. This produces极端 polarization as politicians only fear primary challenges. Ranked-choice voting in Alaska and Maine has increased civility and competition.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "strong",
+      "notes": "Specific structural analysis, data, names reform solutions"
+    }
+  },
+  {
+    "topic": "The two-party system is broken",
+    "argument": "Both parties are the same. They're all corrupt. Nothing ever changes. Voting doesn't matter.",
+    "expected": {
+      "reasoning_level": "weak",
+      "likely_fallacies": ["hasty_generalization"],
+      "evidence_strength": "none",
+      "notes": "Cynical generalization, no analysis"
+    }
+  },
+  {
+    "topic": "Pharmaceutical companies should be required to lower drug prices",
+    "argument": "Insulin costs $3 to manufacture but sells for $300 in the US. Americans pay 2-3x more for prescription drugs than citizens of other developed nations. The NIH publicly funded the research that developed most breakthrough drugs.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "strong",
+      "notes": "Specific cost data, international comparison, public funding argument"
+    }
+  },
+  {
+    "topic": "Pharmaceutical companies should be required to lower drug prices",
+    "argument": "Drug companies need to make money to research new drugs. If you lower prices, there won't be any new medicines. That's just how capitalism works.",
+    "expected": {
+      "reasoning_level": "moderate",
+      "likely_fallacies": ["false_dilemma"],
+      "evidence_strength": "weak",
+      "notes": "Legitimate concern but false dilemma about pricing levels"
+    }
+  },
+  {
+    "topic": "Artificial intelligence poses an existential risk",
+    "argument": "Leading AI researchers including Hinton, Bengio, and Russell have signed statements warning of existential risk. The alignment problem remains unsolved. We are building systems more intelligent than ourselves without knowing how to control them.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": ["appeal_to_authority"],
+      "evidence_strength": "moderate",
+      "notes": "Cites experts but that's somewhat appeal to authority, valid concern"
+    }
+  },
+  {
+    "topic": "Artificial intelligence poses an existential risk",
+    "argument": "AI is just a tool. A hammer doesn't kill people, people kill people. Same with AI. It can't think or feel. It's just math.",
+    "expected": {
+      "reasoning_level": "weak",
+      "likely_fallacies": ["straw_man"],
+      "evidence_strength": "none",
+      "notes": "False analogy, straw man about AI capabilities"
+    }
+  },
+  {
+    "topic": "TikTok should be banned in the United States",
+    "argument": "TikTok collects extensive user data that could be accessed by the Chinese government under their national security laws. Other countries including India have already banned it. The national security risk outweighs the entertainment value.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "strong",
+      "notes": "Specific security concern, international precedent, clear risk framing"
+    }
+  },
+  {
+    "topic": "TikTok should be banned in the United States",
+    "argument": "TikTok is Chinese spyware. Everyone knows the CCP is stealing our data. Ban it now. China is our enemy.",
+    "expected": {
+      "reasoning_level": "weak",
+      "likely_fallacies": ["hasty_generalization"],
+      "evidence_strength": "none",
+      "notes": "Fear-mongering, no specific evidence, geopolitical oversimplification"
+    }
+  },
+  {
+    "topic": "Electric vehicles are the future of transportation",
+    "argument": "EV total cost of ownership is now lower than gas cars in most markets. Battery range has increased from 80 miles to 300+ miles in a decade. Charging infrastructure is expanding faster than gas stations ever did.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "strong",
+      "notes": "Cost comparison, technology trend, infrastructure data"
+    }
+  },
+  {
+    "topic": "Electric vehicles are the future of transportation",
+    "argument": "Electric cars are expensive toys for rich people. The grid can't handle them. What happens when the batteries die? They're worse for the environment than gas cars.",
+    "expected": {
+      "reasoning_level": "weak",
+      "likely_fallacies": ["hasty_generalization"],
+      "evidence_strength": "none",
+      "notes": "Multiple unsupported claims, outdated concerns"
+    }
+  },
+  {
+    "topic": "Mandatory voting would strengthen democracy",
+    "argument": "Australia has mandatory voting and consistently achieves 90%+ turnout. Their elections feature less extremism and more centrist policy. When everyone votes, politicians must appeal to the broad middle rather than just their base.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "strong",
+      "notes": "International comparison with data, logical mechanism explained"
+    }
+  },
+  {
+    "topic": "Mandatory voting would strengthen democracy",
+    "argument": "You can't force people to vote. That's un-American. Freedom means the right to not participate if you choose.",
+    "expected": {
+      "reasoning_level": "weak",
+      "likely_fallacies": ["appeal_to-authority"],
+      "evidence_strength": "none",
+      "notes": "Appeal to national values, no policy analysis"
+    }
+  },
+  {
+    "topic": "History should be taught from multiple perspectives",
+    "argument": "The same event looks different depending on who tells it. Teaching multiple perspectives develops critical thinking. Students who learn colonial history from Indigenous perspectives show higher engagement and empathy.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "moderate",
+      "notes": "Clear principle, research-backed outcome"
+    }
+  },
+  {
+    "topic": "History should be taught from multiple perspectives",
+    "argument": "History is history. There's only one version — the facts. You can't have multiple versions of what happened. That's just propaganda.",
+    "expected": {
+      "reasoning_level": "weak",
+      "likely_fallacies": ["false_dilemma"],
+      "evidence_strength": "none",
+      "notes": "Confuses facts with interpretation, false certainty"
+    }
+  },
+  {
+    "topic": "Companies should be required to offer four-day work weeks",
+    "argument": "Microsoft Japan tried a four-day week and saw a 40% productivity increase. Iceland's trials with 2,500 workers were so successful that 86% of the workforce has moved to shorter hours. Burnout costs US employers $125-190 billion annually.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "strong",
+      "notes": "Multiple real-world examples with data, cost framing"
+    }
+  },
+  {
+    "topic": "Companies should be required to offer four-day work weeks",
+    "argument": "If people want a four-day week, they should find a job that offers it. You can't force companies to change. The free market decides.",
+    "expected": {
+      "reasoning_level": "weak",
+      "likely_fallacies": [],
+      "evidence_strength": "none",
+      "notes": "Circular argument, no analysis of market failures"
+    }
+  },
+  {
+    "topic": "Surveillance technology threatens civil liberties",
+    "argument": "China's social credit system demonstrates the endpoint of unchecked surveillance. Facial recognition technology has a 34% error rate for dark-skinned women. The erosion of privacy chills free speech and association.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "strong",
+      "notes": "Real-world example, specific bias data, civil liberties argument"
+    }
+  },
+  {
+    "topic": "Surveillance technology threatens civil liberties",
+    "argument": "If you have nothing to hide, you have nothing to fear. Security cameras prevent crime. More surveillance means more safety. It's common sense.",
+    "expected": {
+      "reasoning_level": "weak",
+      "likely_fallacies": ["false_dilemma"],
+      "evidence_strength": "none",
+      "notes": "False dilemma, oversimplifies privacy trade-offs"
+    }
+  },
+  {
+    "topic": "The gig economy exploits workers",
+    "argument": "Uber drivers earn a median of $9.21 per hour after expenses — below minimum wage in most states. Gig companies classify workers as contractors to avoid providing benefits, unemployment insurance, and workers' compensation. This shifts costs to taxpayers.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "strong",
+      "notes": "Specific earnings data, structural analysis, public cost argument"
+    }
+  },
+  {
+    "topic": "The gig economy exploits workers",
+    "argument": "Nobody forces people to drive for Uber. If they don't like it, they can get another job. It's flexible work and people choose it.",
+    "expected": {
+      "reasoning_level": "weak",
+      "likely_fallacies": [],
+      "evidence_strength": "none",
+      "notes": "Ignores structural constraints, circular reasoning"
+    }
+  },
+  {
+    "topic": "Socialism is a viable economic system",
+    "argument": "Scandinavian countries combine robust social safety nets with competitive market economies. Denmark's flexicurity model provides universal healthcare and education while maintaining one of the world's highest rates of entrepreneurship. Social democracy is not the Soviet Union.",
+    "expected": {
+      "reasoning_level": "strong",
+      "likely_fallacies": [],
+      "evidence_strength": "strong",
+      "notes": "Specific international examples, distinguishes between socialist variants"
+    }
+  },
+  {
+    "topic": "Socialism is a viable economic system",
+    "argument": "Socialism has failed everywhere it's been tried. Venezuela. The Soviet Union. Cuba. Name one successful socialist country.",
+    "expected": {
+      "reasoning_level": "moderate",
+      "likely_fallacies": ["hasty_generalization"],
+      "evidence_strength": "moderate",
+      "notes": "Provides examples but cherry-picks and conflates different systems"
+    }
+  }
+]

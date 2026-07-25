@@ -5,16 +5,39 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from ai.enums import Persona
-from ai.prompts import get_prompt
+from ai.prompts import PersonaSections, get_persona_sections
+
+
+@dataclass(frozen=True)
+class PromptSections:
+    """Structured prompt sections for a persona."""
+
+    role: str
+    strategy: str
+    mission: str
+    behavior: str
+    constraints: str
 
 
 @dataclass(frozen=True)
 class PersonaConfig:
+    """Complete persona configuration with structured prompt sections."""
+
     id: Persona
     name: str
-    system_prompt: str
+    sections: PromptSections
     prompt_version: str
     debate_style: str
+
+
+def _sections_to_prompt_sections(s: PersonaSections) -> PromptSections:
+    return PromptSections(
+        role=s.role,
+        strategy=s.strategy,
+        mission=s.mission,
+        behavior=s.behavior,
+        constraints=s.constraints,
+    )
 
 
 _PERSONA_META: dict[Persona, tuple[str, str]] = {
@@ -29,12 +52,12 @@ PERSONA_CONFIGS: dict[Persona, PersonaConfig] = {}
 
 def _build_configs() -> None:
     for persona, (name, style) in _PERSONA_META.items():
-        prompt, version = get_prompt(persona)
+        sections = get_persona_sections(persona)
         PERSONA_CONFIGS[persona] = PersonaConfig(
             id=persona,
             name=name,
-            system_prompt=prompt,
-            prompt_version=version,
+            sections=_sections_to_prompt_sections(sections),
+            prompt_version=sections.version,
             debate_style=style,
         )
 

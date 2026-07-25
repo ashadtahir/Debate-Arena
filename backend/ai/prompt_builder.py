@@ -1,73 +1,133 @@
-"""Prompt builder — assembles structured prompts for the debate engine.
+"""Prompt builder — structured section-based prompt composition.
 
-Sections are built independently then concatenated:
-1. System prompt (persona-specific debate rules)
-2. Debate context (topic, side, round label, difficulty)
-3. Conversation history
-4. User argument (current round)
-5. Response format instructions (JSON schema)
+Assembles the system prompt from discrete sections:
+  Role → Strategy → Mission → Universal Rules → Coaching Goal → Debate Context → Response Structure → Format
 
-The builder is a pure function: same inputs always produce the same prompt.
-This makes prompt iteration and debugging straightforward — just inspect the
-output without needing to hit the LLM.
+Uses PromptContext internally to reduce parameter sprawl. The public API
+(build_messages) signature is unchanged.
+
+Each section is built independently, making prompt iteration and debugging
+straightforward — just inspect the output without needing to hit the LLM.
+
+PROMPT_VERSION = "2.0" is defined in prompts/base.py and tracked in logs.
 """
 
 from __future__ import annotations
 
+from dataclasses import dataclass
+
 from ai.enums import DebateSide, Difficulty
 from ai.models import ConversationTurn
 from ai.persona_manager import PersonaConfig
-from ai.prompts.base import GLOBAL_DEBATE_RULES, RESPONSE_FORMAT_INSTRUCTIONS
+from ai.prompts.base import (
+    DIFFICULTY_INSTRUCTIONS,
+    GLOBAL_DEBATE_RULES,
+    RESPONSE_FORMAT_INSTRUCTIONS,
+    RESPONSE_STRUCTURE,
+    ROUND_LABELS,
+)
+from ai.prompts.coaching import get_coaching_objective
 
-ROUND_LABELS: dict[int, str] = {
-    1: "Opening Arguments",
-    2: "Rebuttal",
-    3: "Counter-Rebuttal",
-    4: "Final Challenge",
-    5: "Closing Statements",
-}
-
-DIFFICULTY_INSTRUCTIONS: dict[Difficulty, str] = {
-    Difficulty.APPRENTICE: (
-        "DEBATE DIFFICULTY: Apprentice.\n"
-        "Be measured and accessible. Focus on one key point per round. "
-        "Your pushback should be clear but not overwhelming. "
-        "Help the debater learn by asking focused questions."
-    ),
-    Difficulty.SCHOLAR: (
-        "DEBATE DIFFICULTY: Scholar.\n"
-        "Be sharper and more analytical. Challenge multiple points if justified. "
-        "Use evidence-based reasoning and demand the same from your opponent. "
-        "Push harder on logical inconsistencies."
-    ),
-    Difficulty.MASTER: (
-        "DEBATE DIFFICULTY: Master.\n"
-        "Be relentless. No easy wins. Explores every weakness in the argument. "
-        "Demand rigorous evidence and precise reasoning. "
-        "Your questions should be difficult to answer without deep thought."
-    ),
-}
+# Adaptation is optional — imported at module level to avoid circular imports
+_adaptation_module = None
 
 
-def _section_debate_context(topic: str, side: DebateSide, round_number: int) -> str:
-    stance_label = "defending" if side == DebateSide.FOR else "challenging"
-    round_label = ROUND_LABELS.get(round_number, f"Round {round_number}")
+def _get_adaptation():
+    global _adaptation_module
+    if _adaptation_module is None:
+        from ai import adaptation
+        _adaptation_module = adaptation
+    return _adaptation_module
+
+
+@dataclass
+class PromptContext:
+    """Bundles all inputs for prompt composition. Reduces parameter sprawl."""
+
+    persona: PersonaConfig
+    topic: str
+    side: DebateSide
+    difficulty: Difficulty
+    round_number: int
+    history: list[ConversationTurn]
+    user_argument: str
+    memory_summary: str = ""
+    profile: object | None = None  # DebateProfile from adaptation module
+
+
+def _section_role(ctx: PromptContext) -> str:
+    return ctx.persona.sections.role
+
+
+def _section_strategy(ctx: PromptContext) -> str:
+    return ctx.persona.sections.strategy
+
+
+def _section_mission(ctx: PromptContext) -> str:
+    return ctx.persona.sections.mission
+
+
+def _section_rules(ctx: PromptContext) -> str:
+    return GLOBAL_DEBATE_RULES
+
+
+def _section_behavior(ctx: PromptContext) -> str:
+    return ctx.persona.sections.behavior
+
+
+def _section_constraints(ctx: PromptContext) -> str:
+    return ctx.persona.sections.constraints
+
+
+def _section_coaching(ctx: PromptContext) -> str:
+    obj = get_coaching_objective(ctx.round_number, ctx.persona.id.value)
+    lines = [
+        f"COACHING OBJECTIVE — develop the user's {obj.skill} this round:",
+        obj.instruction,
+    ]
+    if obj.persona_guidance:
+        lines.append(f"Persona-specific approach: {obj.persona_guidance}")
+    return "\n".join(lines)
+
+
+def _section_adaptation(ctx: PromptContext) -> str:
+    """Inject adaptive difficulty guidance if a profile is available."""
+    if ctx.profile is None:
+        return ""
+    mod = _get_adaptation()
+    if mod is None:
+        return ""
+    return mod.get_adaptation_guidance(ctx.profile, ctx.persona.id.value)
+
+
+def _section_debate_context(ctx: PromptContext) -> str:
+    stance_label = "defending" if ctx.side == DebateSide.FOR else "challenging"
+    round_label = ROUND_LABELS.get(ctx.round_number, f"Round {ctx.round_number}")
+    diff_block = DIFFICULTY_INSTRUCTIONS.get(ctx.difficulty.value, "")
     return (
         f"DEBATE CONTEXT:\n"
-        f'Proposition: "{topic}"\n'
+        f'Proposition: "{ctx.topic}"\n'
         f"The user is {stance_label} this proposition.\n"
-        f"Current round: {round_number} — {round_label}"
+        f"Current round: {ctx.round_number} — {round_label}\n\n"
+        f"{diff_block}"
     )
 
 
-def _section_system_prompt(persona: PersonaConfig) -> str:
+def _section_memory(ctx: PromptContext) -> str:
+    if not ctx.memory_summary:
+        return ""
     return (
-        f"{persona.system_prompt}\n\n"
-        f"---\n\n"
-        f"{RESPONSE_FORMAT_INSTRUCTIONS}\n\n"
-        f"---\n\n"
-        f"{GLOBAL_DEBATE_RULES}"
+        f"PREVIOUS DEBATE CONTEXT (summarized from {ctx.round_number - 1} prior rounds):\n"
+        f"{ctx.memory_summary}"
     )
+
+
+def _section_response_structure() -> str:
+    return RESPONSE_STRUCTURE
+
+
+def _section_format() -> str:
+    return RESPONSE_FORMAT_INSTRUCTIONS
 
 
 def _section_history(history: list[ConversationTurn]) -> list[dict[str, str]]:
@@ -86,19 +146,54 @@ def build_messages(
     round_number: int,
     history: list[ConversationTurn],
     user_argument: str,
+    *,
+    memory_summary: str = "",
+    profile: object | None = None,
 ) -> list[dict[str, str]]:
     """Construct the full message list for the LLM."""
 
-    system_prompt = _section_system_prompt(persona)
-    context = _section_debate_context(topic, side, round_number)
-    diff_block = DIFFICULTY_INSTRUCTIONS[difficulty]
+    ctx = PromptContext(
+        persona=persona,
+        topic=topic,
+        side=side,
+        difficulty=difficulty,
+        round_number=round_number,
+        history=history,
+        user_argument=user_argument,
+        memory_summary=memory_summary,
+        profile=profile,
+    )
 
-    full_system = f"{system_prompt}\n\n{context}\n\n{diff_block}"
+    system_sections = [
+        _section_role(ctx),
+        _section_strategy(ctx),
+        _section_mission(ctx),
+        _section_rules(ctx),
+        _section_behavior(ctx),
+        _section_coaching(ctx),
+    ]
+
+    adaptation_section = _section_adaptation(ctx)
+    if adaptation_section:
+        system_sections.append(adaptation_section)
+
+    system_sections.append(_section_debate_context(ctx))
+
+    memory_section = _section_memory(ctx)
+    if memory_section:
+        system_sections.append(memory_section)
+
+    system_sections.extend([
+        _section_response_structure(),
+        _section_format(),
+    ])
+
+    full_system = "\n\n---\n\n".join(system_sections)
 
     messages: list[dict[str, str]] = [
         {"role": "system", "content": full_system},
     ]
-    messages.extend(_section_history(history))
-    messages.append({"role": "user", "content": user_argument})
+    messages.extend(_section_history(ctx.history))
+    messages.append({"role": "user", "content": ctx.user_argument})
 
     return messages
